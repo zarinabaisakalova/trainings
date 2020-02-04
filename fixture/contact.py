@@ -10,17 +10,33 @@ class ContactHelper:
         # init contact creation
         wd.find_element_by_link_text("add new").click()
         # fill contact form
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("middlename").click()
-        wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(contact.middlename)
-        wd.find_element_by_name("mobile").click()
-        wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(contact.mobile)
+        self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element_by_name("submit").click()
+        self.return_to_home_page()
+
+    def fill_contact_form(self, contact):
+        self.app.fill_form("firstname", contact.firstname)
+        self.app.fill_form("middlename", contact.middlename)
+        self.app.fill_form("mobile", contact.mobile)
+
+    def modify_first_contact(self, new_contact_data):
+        wd = self.app.wd
+        # open modification form
+        wd.find_element_by_css_selector("img[title='Edit']").click()
+        self.fill_contact_form(new_contact_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        self.app.select_first()
+        # submit deletion
+        wd.find_element_by_css_selector("input[value='Delete']").click()
+        # accept to alert
+        alert = wd.switch_to_alert()
+        alert.accept()
         self.return_to_home_page()
 
     def return_to_home_page(self):
