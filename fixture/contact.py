@@ -22,6 +22,7 @@ class ContactHelper:
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
+        self.app.select_first()
         # open modification form
         wd.find_element_by_css_selector("img[title='Edit']").click()
         self.fill_contact_form(new_contact_data)
@@ -35,10 +36,11 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_css_selector("input[value='Delete']").click()
         # accept to alert
-        alert = wd.switch_to_alert()
-        alert.accept()
+        wd.switch_to_alert().accept()
+        #alert = wd.switch_to_alert()
+        #alert.accept()
         self.return_to_home_page()
 
     def return_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        wd.find_element_by_link_text("home").click()
