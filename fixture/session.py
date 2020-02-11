@@ -1,5 +1,3 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 _author_ = 'zarina'
 
 class SessionHelper:
