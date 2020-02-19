@@ -8,8 +8,6 @@ class SessionHelper:
     def login(self, username, password):
         wd = self.app.wd
         self.app.open_home_page()
-        if (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_name("user")) > 0):
-            return
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)

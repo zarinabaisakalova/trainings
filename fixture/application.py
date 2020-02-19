@@ -23,6 +23,8 @@ class Application:
     def open_home_page(self):
         wd = self.wd
         wd.get("http://localhost/addressbook/")
+        if (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_name("user")) > 0):
+            return
 
     def fill_form(self, field_name, text):
         wd = self.wd
