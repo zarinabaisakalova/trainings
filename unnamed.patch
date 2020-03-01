@@ -1,0 +1,49 @@
+Index: fixture/group.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- fixture/group.py	(revision b8dec1618cba82ade4597fb4aff1a3102bedcd1a)
++++ fixture/group.py	(revision 15e9f79cb46dc53f7ba9af7798e6f05fa376d618)
+@@ -71,7 +71,7 @@
+             text = element.text
+             id = element.find_element_by_name("selected[]").get_attribute("value")
+             groups.append(Group(name=text, id=id))
+-            return groups
++        return groups
+ 
+ 
+ 
+Index: model/group.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- model/group.py	(revision b8dec1618cba82ade4597fb4aff1a3102bedcd1a)
++++ model/group.py	(revision 15e9f79cb46dc53f7ba9af7798e6f05fa376d618)
+@@ -8,3 +8,8 @@
+         self.footer = footer
+         self.id = id
+ 
++    def __repr__(self):
++        return "%s:$s" % (self.id, self.name)
++
++    def __eq__(self, other):
++        return self.id == other.id and self.name == other.name
+Index: test/test_del_group.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- test/test_del_group.py	(revision b8dec1618cba82ade4597fb4aff1a3102bedcd1a)
++++ test/test_del_group.py	(revision 15e9f79cb46dc53f7ba9af7798e6f05fa376d618)
+@@ -8,4 +8,6 @@
+     old_groups = app.group.get_group_list()
+     app.group.delete_first_group()
+     new_groups = app.group.get_group_list()
+-    assert len(old_groups) - 1 == len(new_groups)
+\ No newline at end of file
++    assert len(old_groups) - 1 == len(new_groups)
++    old_groups[0:1] = []
++    assert old_groups == new_groups
+\ No newline at end of file
