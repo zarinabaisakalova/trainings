@@ -30,18 +30,24 @@ class GroupHelper:
         self.app.fill_form("group_footer", group.footer)
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         self.open_groups_page()
-        self.app.select_first()
+        self.app.select_group_by_index(index)
         # submit deletion
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
         self.group_cache = None
 
-    def modify_first_group(self, new_group_data):
+    def modify_first(self, new_group_data):
+        self.modify_group_by_index(0, new_group_data)
+
+    def modify_group_by_index(self, index, new_group_data):
         wd = self.app.wd
         self.open_groups_page()
-        self.app.select_first()
+        self.app.select_group_by_index(index)
         # open modification form
         if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("edit")) > 0:
             return

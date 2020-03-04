@@ -38,5 +38,9 @@ class Application:
         wd = self.wd
         wd.find_element_by_name("selected[]").click()
 
+    def select_group_by_index(self, index):
+        wd = self.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def destroy(self):
         self.wd.quit()
