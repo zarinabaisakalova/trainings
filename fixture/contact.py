@@ -23,13 +23,17 @@ class ContactHelper:
         self.app.fill_form("middlename", contact.middlename)
         self.app.fill_form("mobile", contact.mobile)
 
-    def modify_first_contact(self, new_contact_data):
+    def modify_first(self, new_contact_data):
+        self.modify_contact_by_index(0, new_contact_data)
+
+    def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
-        self.app.select_first()
+        self.return_to_home_page()
+        self.app.select_contact_by_index(index)
         # open modification form
         if wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("Edit")) > 0:
             return
-        wd.find_element_by_css_selector("img[title='Edit']").click()
+        wd.find_element_by_css_selector("img[title='Edit']")[index].click()
         self.fill_contact_form(new_contact_data)
         # submit modification
         if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("update")) > 0:
@@ -38,9 +42,13 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
-    def delete_first_contact(self):
+    def delete_first(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
-        self.app.select_first()
+        self.return_to_home_page()
+        self.app.select_contact_by_index(index)
         # submit deletion
         if wd.current_url.endswith("/delete.php?") and len(wd.find_elements_by_name("Delete")) > 0:
             return
