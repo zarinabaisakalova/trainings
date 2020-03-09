@@ -33,7 +33,7 @@ class ContactHelper:
         # open modification form
         if wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("Edit")) > 0:
             return
-        wd.find_element_by_css_selector("img[title='Edit']")[index].click()
+        wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
         self.fill_contact_form(new_contact_data)
         # submit modification
         if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("update")) > 0:
