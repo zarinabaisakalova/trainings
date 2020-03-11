@@ -37,6 +37,7 @@ class Application:
     def select_first(self):
         wd = self.wd
         wd.find_element_by_name("selected[]").click()
+        #self.select_contact_by_index(0)
 
     def select_contact_by_index(self, index):
         wd = self.wd

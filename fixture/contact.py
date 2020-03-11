@@ -20,7 +20,7 @@ class ContactHelper:
 
     def fill_contact_form(self, contact):
         self.app.fill_form("firstname", contact.firstname)
-        self.app.fill_form("middlename", contact.middlename)
+        self.app.fill_form("lastname", contact.lastname)
         self.app.fill_form("mobile", contact.mobile)
 
     def modify_first(self, new_contact_data):
@@ -80,7 +80,7 @@ class ContactHelper:
             self.contact_cache = []
             for element in wd.find_elements_by_name("entry"):
                 contact_id = element.find_element_by_css_selector("td:nth-child(1) input").get_attribute("id")
-                #middlename = element.find_element_by_css_selector("td:nth-child(2)").text
+                lastname = element.find_element_by_css_selector("td:nth-child(2)").text
                 firstname = element.find_element_by_css_selector("td:nth-child(3)").text
-                self.contact_cache.append(Contact(contact_id=contact_id, firstname=firstname))
+                self.contact_cache.append(Contact(contact_id=contact_id, firstname=firstname, lastname=lastname))
         return list(self.contact_cache)
