@@ -25,5 +25,5 @@ def test_modify_some_contact_name(app):
 
 #def test_modify_contact_footer(app):
    # if app.contact.count_contact() == 0:
-    #    app.contact.create(Contact(mobile="test3"))
-    #app.contact.modify_first_contact(Contact(mobile="New 89162935001"))
+    #    app.contact.create(Contact(mobilephone="test3"))
+    #app.contact.modify_first_contact(Contact(mobilephone="New 89162935001"))

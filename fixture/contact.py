@@ -22,11 +22,10 @@ class ContactHelper:
     def fill_contact_form(self, contact):
         self.app.fill_form("firstname", contact.firstname)
         self.app.fill_form("lastname", contact.lastname)
-        self.app.fill_form("mobile", contact.mobile)
         self.app.fill_form("home", contact.homephone)
         self.app.fill_form("mobile", contact.mobilephone)
         self.app.fill_form("work", contact.workphone)
-        self.app.fill_form("secondary", contact.secondaryphone)
+        self.app.fill_form("phone2", contact.secondaryphone)
         self.app.fill_form("address", contact.address)
         self.app.fill_form("email", contact.email)
 
@@ -91,19 +90,18 @@ class ContactHelper:
                 firstname = cells[1].text
                 lastname = cells[2].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                all_phones = cells[5].text.splitlines()
-                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id,
-                                                  homephone=all_phones[0], mobilephone=all_phones[1],
-                                                  workphone=all_phones[2], secondaryphone=all_phones[3]))
+                all_phones = cells[5].text
+                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
-        row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[7]
-        cell.find_element_by_tag_name("a").click()
+        #row = wd.find_elements_by_name("entry")[index]
+        #cell = row.find_elements_by_tag_name("td")[7]
+        #cell.find_element_by_tag_name("a").click()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
