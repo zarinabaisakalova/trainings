@@ -1,5 +1,3 @@
-C:\trainings\trainings\test
-
 __author__ = 'zarina'
 
 import pytest
