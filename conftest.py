@@ -24,7 +24,7 @@ def app(request):
     fixture.session.ensure_login(username=target['username'], password=target['password'])
     return fixture
 
-@pytest.fixture(scope = "session", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
         fixture.session.ensure_logout()
@@ -33,7 +33,7 @@ def stop(request):
     return fixture
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
 
 def pytest_generate_tests(metafunc):
@@ -41,8 +41,8 @@ def pytest_generate_tests(metafunc):
         if fixture.startswith("data_"):
             testdata = load_from_module(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
-        elif fixture.startswith("json"):
-            testdata = load_from_module (fixture[5:])
+        elif fixture.startswith("json_"):
+            testdata = load_from_json(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
 
 
