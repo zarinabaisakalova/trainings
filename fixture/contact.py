@@ -49,6 +49,22 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, id, contact_new):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.app.select_contact_by_id(id)
+        # open modification form
+        if wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("Edit")) > 0:
+            return
+        wd.find_element_by_xpath("//input[@id='%s']/parent::td/following-sibling::td[7]//img[@title='Edit']" % id).click()
+        self.fill_contact_form(contact_new)
+        # submit modification
+        if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("update")) > 0:
+            return
+        wd.find_element_by_name("update").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
     def delete_first(self):
         self.delete_contact_by_index(0)
 
@@ -56,6 +72,21 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page()
         self.app.select_contact_by_index(index)
+        # submit deletion
+        if wd.current_url.endswith("/delete.php?") and len(wd.find_elements_by_name("Delete")) > 0:
+            return
+        wd.find_element_by_css_selector("input[value='Delete']").click()
+        # accept to alert
+        wd.switch_to_alert().accept()
+        #alert = wd.switch_to_alert()
+        #alert.accept()
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.return_to_home_page()
+        self.app.select_contact_by_id(id)
         # submit deletion
         if wd.current_url.endswith("/delete.php?") and len(wd.find_elements_by_name("Delete")) > 0:
             return

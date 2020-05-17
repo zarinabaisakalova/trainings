@@ -70,6 +70,23 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
+    def modify_group_by_id(self, id, group_new):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.app.select_group_by_id(id)
+        # open modification form
+        if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("edit")) > 0:
+            return
+        wd.find_element_by_name("edit").click()
+        # fill group form
+        self.fill_group_form(group_new)
+        # submit modification
+        if wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("update")) > 0:
+            return
+        wd.find_element_by_name("update").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def return_to_groups_page(self):
         wd = self.app.wd
         if wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0:

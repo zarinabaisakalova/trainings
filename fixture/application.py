@@ -51,6 +51,10 @@ class Application:
         wd = self.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_contact_by_id(self, id):
+        wd = self.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
     def select_group_by_index(self, index):
         wd = self.wd
         wd.find_elements_by_name("selected[]")[index].click()
