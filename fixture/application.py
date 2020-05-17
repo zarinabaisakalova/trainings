@@ -55,5 +55,9 @@ class Application:
         wd = self.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_group_by_id(self, id):
+        wd = self.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
     def destroy(self):
         self.wd.quit()

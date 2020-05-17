@@ -41,6 +41,15 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
+    def delete_group_by_id(self, id):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.app.select_group_by_id(id)
+        # submit deletion
+        wd.find_element_by_name("delete").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def modify_first(self, new_group_data):
         self.modify_group_by_index(0, new_group_data)
 
