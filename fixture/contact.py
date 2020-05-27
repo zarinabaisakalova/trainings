@@ -1,5 +1,5 @@
 _author_ = 'zarina'
-
+from selenium.webdriver.support.select import Select
 from model.contact import Contact
 import re
 
@@ -90,13 +90,14 @@ class ContactHelper:
         # submit deletion
         if wd.current_url.endswith("/delete.php?") and len(wd.find_elements_by_name("Delete")) > 0:
             return
-        wd.find_element_by_css_selector("input[value='Delete']").click()
-        # accept to alert
+        self.select_contact_by_id(id)
         wd.switch_to_alert().accept()
-        #alert = wd.switch_to_alert()
-        #alert.accept()
         self.return_to_home_page()
         self.contact_cache = None
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def return_to_home_page(self):
         wd = self.app.wd
@@ -172,3 +173,26 @@ class ContactHelper:
         mobilephone = re.search("M: (.*)", text).group(1)
         secondaryphone = re.search("P: (.*)", text).group(1)
         return Contact(homephone=homephone, workphone=workphone, mobilephone=mobilephone, secondaryphone=secondaryphone)
+
+    def add_contact_in_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        # select contact
+        self.select_contact_by_id(contact_id)
+        # select group
+        wd.find_element_by_name("to_group").click()
+        Select(wd.find_element_by_css_selector("select[name=\"to_group\"]")).select_by_value('%s' % group_id)
+        # add contact in group
+        wd.find_element_by_name("add").click()
+
+    def delete_contact_from_group(self, group_id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.group_page_with_contact(group_id)
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("//input[@name='remove']").click()
+
+    def group_page_with_contact(self, group_id):
+        wd = self.app.wd
+        wd.find_element_by_name("group").click()
+        Select(wd.find_element_by_css_selector("select[name=\"group\"]")).select_by_value('%s' % group_id)
